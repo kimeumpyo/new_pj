@@ -141,12 +141,12 @@ function KakaoApp() {
       kakao.maps.load(() => {
         const mapContainer = document.getElementById('map');
         const options = { 
-          center: new kakao.maps.LatLng(37.56000302825312, 126.97540593203321), //좌표설정
+          center: new kakao.maps.LatLng(37.49215749883927, 126.72396041759227), //좌표설정
           level: 3 
         }; 
         const map = new kakao.maps.Map(mapContainer, options); //맵생성
         //마커설정
-        const markerPosition = new kakao.maps.LatLng(37.56000302825312, 126.97540593203321); 
+        const markerPosition = new kakao.maps.LatLng(37.49215749883927, 126.72396041759227); 
         const marker = new kakao.maps.Marker({ 
           position: markerPosition
         }); 

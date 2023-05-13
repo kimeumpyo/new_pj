@@ -20,7 +20,7 @@ function App() {
   
   useEffect(() => { 
     //카카오맵 스크립트 읽어오기
-    const my_script = new_script('https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=e7f28da5ec5723a01344341099af1f5e');
+    const my_script = new_script('https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=e7f28da5ec5723a01344341099af1f5e'); // &libraries=cluserer => 마크를 클러스터러로 표기
     
     //스크립트 읽기 완료 후 카카오맵 설정
     my_script.then(() => { 
@@ -51,3 +51,6 @@ function App() {
 }
 
 export default App;
+
+
+
