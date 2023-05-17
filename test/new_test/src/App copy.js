@@ -8,8 +8,14 @@ export const API_URL =
 export const API_KEY =
   "GzDJ%2BPjFKpdRSKy5jESta9ke4vnfZT%2BRjrLMCMJl08hDVAqIEWAzYyx3ILOJ0ilrDn3NaD8Ng8%2FagdzFkJNZ8g%3D%3D";
 
+// 년도
+const years = [2019, 2020, 2021];
+
 function App() {
   const [datas, setData] = useState(null);
+
+  // 년도
+  const [year, setYear] = useState(2019);
 
   // api의 자료를 가져올 변수를 선언한다
   // const [yaer, setyaer] = useState(yaers[0]);
@@ -33,40 +39,33 @@ function App() {
     return <p>...</p>;
   }
 
-  // console.log("year", datas.response.body.items.yaer);
-
   const all_mark = datas.response.body.items.map((item) => {
     return [Number(item.year), Number(item.dmX), Number(item.dmY), item.addr];
   });
 
-  console.log(all_mark);
+  // 년도 -> 아이템의 모든 데이터
+  const arr = datas.response.body.items;
 
-  
+  // 년도 -> 모든 데이터에서 year에 맞는 데이터만 추출
+  const r = arr.filter((item) => {
+    if (item.year == year) {
+      return item;
+    }
+  });
 
-  
+  const rs = r.array.map((item) => {
+    return [item.dmX, item.dmY, item.addr];
+  });
 
-  // const locations = datas.response.body.items.map((item) => {
-  //   return Number(item.year);
+  console.log("년도별좌표", rs);
 
-  // });
+  // console.log("year:", year);
+  // console.log(r.length);
+  // console.log(r);
 
-  console.log("확인", all_mark);
+  // console.log(all_mark);
 
-  // console.log(data.response.body.items[0]);
-
-  // const datas = data.response.body.items.map(function(dododo){
-  //     return <p>{dododo}</p>
-  // })
-
-  // const api_data = ["join", "dpdp", "dfdf"];
-
-  // const api_datas = api_data.map(function (person) {
-  //   return <p>{person}</p>;
-  // });
-
-  // if (!datas) {
-  //   return <p>로딩중...</p>;
-  // }
+  // console.log("확인", all_mark);
 
   return (
     <>
