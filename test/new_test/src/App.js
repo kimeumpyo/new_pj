@@ -7,62 +7,78 @@ export const API_URL = 'http://apis.data.go.kr/B552584/MsrstnInfoInqireSvc/getMs
 // API 인증키 
 export const API_KEY = 'GzDJ%2BPjFKpdRSKy5jESta9ke4vnfZT%2BRjrLMCMJl08hDVAqIEWAzYyx3ILOJ0ilrDn3NaD8Ng8%2FagdzFkJNZ8g%3D%3D';
 
+
+
 function App() {
 
-  // const [data, setData] = useState(null);
+  const [datas, setData] = useState(null);
+
+  // api의 자료를 가져올 변수를 선언한다
+  // const [yaer, setyaer] = useState(yaers[0]);
+  // const [dmX, setyaer] = useState(dmXs[0]);
+  // const [dmY, setyaer] = useState(dmYs[0]);
+  // const [addr, setyaer] = useState(addr[0]);
 
   useEffect(() => {
-    const endpoint = `${API_URL}?addr=&sidoName=&pageNo=1&numOfRows=1000&serviceKey=${API_KEY}&returnType=json`;
+    const apiURL = `${API_URL}?addr=&sidoName=&pageNo=1&numOfRows=642&serviceKey=${API_KEY}&returnType=json`;
     
-    fetch(endpoint)
+    fetch(apiURL)
       .then(response => response.json())
       .then(response => {
         console.log(response)
 
-        // setData(response)
-
-        // console.log(data);
-
-
-        
+        setData(response)
+        // response.array.forEach(element => {
+        //   console.log (element)
+        // });
 
         
-        // const korosCreatedAtFed = kokos.filter(koro =>{
-          
-        //   // 방법1: 날짜 객체를 이용하는 경우
-        //   // const month =  new Date(koro.createdAt).getMonth() + 1;
-          
-        //   // if(month === 2){
-        //   //     return koro;
-        //   //   }
-            
-        //   // 방법2: 문자열 그대로 사용하는 경우
-        //    const month =  koro.createdAt.spilt('-')[1];
-            
-        //    if(month === '02'){
-        //       return koro;
-        //     }
-
-        //     console.log("월",month);
-        //   })
-        //   console.log(korosCreatedAtFed);
-
+        
       })
       
     }, [])
-
-      // if (!data) {
-      //   return <p>로딩중...</p>
-      // }
     
-      // return (
-      //   <>
-      //     <h1>App</h1>
-      //     <p>{data.response.body.items[0].dataDate}</p>
-      //     <p>{data.response.body.items[0].districtName}</p>
-      //   </>
-      // )
-    }
+    console.log("총자료",datas)
 
+    datas.response.body.map(item => console.log(item.items[0]).year)
+    // console.log(data.response.body.items[0]);
+
+    // const datas = data.response.body.items.map(function(dododo){
+    //     return <p>{dododo}</p>
+    // })
+    
+    
+    const api_data = ['join', 'dpdp', 'dfdf'];
+    
+    const api_datas = api_data.map(function(person){
+      
+      return <p>{person}</p>
+      
+
+      
+      
+    });
+    
+    
+    
+    
+  
+    
+      if (!datas) {
+        return <p>로딩중...</p>
+      }
+    
+      return (
+        <>
+          <h1>App</h1>
+          <p>{datas.response.body.items[0].year}</p>
+          <p>{datas.response.body.items[0].dmX}</p>
+          <p>{datas.response.body.items[0].dmY}</p>
+          <p>{datas.response.body.items[0].addr}</p>
+          <div>{api_datas}</div>
+          {/* <div>{datas}</div> */}
+        </>
+      )
+    }
 
 export default App;
