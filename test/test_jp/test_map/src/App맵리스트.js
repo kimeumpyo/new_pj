@@ -94,7 +94,7 @@ function App() {
           const mapContainer = document.getElementById("map"),
             mapOption = {
               center: new kakao.maps.LatLng(37.5608, 126.9826), //좌표설정
-              level: 3, // 지도의 확대 레벨
+              level: 5, // 지도의 확대 레벨
             };
 
           // 지도를 생성한다
@@ -104,7 +104,7 @@ function App() {
           const clusterer = new kakao.maps.MarkerClusterer({
             map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
             averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-            minLevel: 5, // 클러스터 할 최소 지도 레벨
+            minLevel: 10, // 클러스터 할 최소 지도 레벨
           });
 
           // 지도에 표시되는 좌표 및 내용

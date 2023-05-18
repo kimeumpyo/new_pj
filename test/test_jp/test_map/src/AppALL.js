@@ -6,11 +6,8 @@ export const API_URL =
   "http://apis.data.go.kr/B552584/MsrstnInfoInqireSvc/getMsrstnList";
 export const API_KEY =
   "GzDJ%2BPjFKpdRSKy5jESta9ke4vnfZT%2BRjrLMCMJl08hDVAqIEWAzYyx3ILOJ0ilrDn3NaD8Ng8%2FagdzFkJNZ8g%3D%3D";
-const years = [2017, 2018, 2019, 2020, 2021];
 
 function App() {
-  const [year, setYear] = useState(2019);
-  const [datass, setData] = useState(null);
 
   // 스크립트 파일 읽어오기
   const new_script = (src) => {
@@ -35,28 +32,13 @@ function App() {
       const response = await fetch(apiURL);
       const datas = await response.json();
       console.log("datas", datas);
-
-      setData(datas)
-
-      const map_data = datas.response.body.items.map(item =>
+      const years = [2017, 2018, 2019, 2020, 2021];
+      
+      const map_data = datas.response.body.items.map(item=>
         [Number(item.dmX), Number(item.dmY), item.addr]
-      ) // map_data
+      )
 
-      const arr = datas.response.body.items;
-
-      // 년도 -> 모든 데이터에서 year에 맞는 데이터만 추출
-      const year_mark = arr.filter((item) => {
-        if (item.year == year) {
-          return item;
-        }
-      });
-
-      // 년도별 주소및 좌표
-      const year_marks = year_mark.map((item) => {
-        return [Number(item.dmX), Number(item.dmY), item.addr];
-      });
-
-      console.log("map_data", map_data)
+      console.log("map_data",map_data)
       drawMap(map_data)
     }
     getData();
@@ -77,7 +59,7 @@ function App() {
     // console.log(map_data);
 
     function drawMap(map_data) {
-      
+
 
       // 카카오맵 스크립트 읽어오기
       const my_script = new_script(
@@ -104,7 +86,7 @@ function App() {
           const clusterer = new kakao.maps.MarkerClusterer({
             map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
             averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-            minLevel: 5, // 클러스터 할 최소 지도 레벨
+            minLevel: 10, // 클러스터 할 최소 지도 레벨
           });
 
           // 지도에 표시되는 좌표 및 내용
@@ -173,49 +155,32 @@ function App() {
     }
   }, []);
 
-  if (!datass) {
-    return <p>...</p>;
-  }
-
   // const all_mark = datas.response.body.items.map((item) => {
   //   return [Number(item.dmX), Number(item.dmY), item.addr];
   // });
 
-  // 년도 -> 아이템의 모든 데이터
-  const arr = datass.response.body.items;
+  // // 년도 -> 아이템의 모든 데이터
+  // const arr = datas.response.body.items;
 
-  // 년도 -> 모든 데이터에서 year에 맞는 데이터만 추출
-  const r = arr.filter((item) => {
-    if (item.year == year) {
-      return item;
-    }
-  });
+  // // 년도 -> 모든 데이터에서 year에 맞는 데이터만 추출
+  // const r = arr.filter((item) => {
+  //   if (item.year == year) {
+  //     return item;
+  //   }
+  // });
 
-  // 년도별 주소및 좌표
-  const rs = r.map((item) => {
-    return [Number(item.dmX), Number(item.dmY), item.addr];
-  });
+  // // 년도별 주소및 좌표
+  // const rs = r.map((item) => {
+  //   return [Number(item.dmX), Number(item.dmY), item.addr];
+  // });
 
   // console.log("년도별좌표", rs);
   // console.log("자료수", rs.length);
 
   return (
-    <>
-      <div className="App">
-        <div id="map" className="map" />
-      </div>
-
-      {years.map((year) => (
-        <button onClick={() => setYear(year)}>{year}</button>
-      ))}
-      <ul>
-        <p>{rs.length}</p>
-        {r.map((item, index) => (
-          <li key={index}>{item.addr}</li>
-        ))}
-      </ul>
-    </>
-
+    <div className="App">
+      <div id="map" className="map"/>
+    </div>
   );
 }
 

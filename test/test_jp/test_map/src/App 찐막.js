@@ -11,6 +11,7 @@ const years = [2017, 2018, 2019, 2020, 2021];
 function App() {
   const [year, setYear] = useState(2019);
   const [datass, setData] = useState(null);
+  
 
   // 스크립트 파일 읽어오기
   const new_script = (src) => {
@@ -26,41 +27,43 @@ function App() {
       document.head.appendChild(script);
     });
   };
-
+  
   useEffect(() => {
-
+    
     async function getData() {
       const apiURL = `${API_URL}?addr=&sidoName=&pageNo=1&numOfRows=642&serviceKey=${API_KEY}&returnType=json`;
       // api를 부르는 가장 기본적인 명령어
       const response = await fetch(apiURL);
       const datas = await response.json();
       console.log("datas", datas);
-
+      
       setData(datas)
-
+      
       const map_data = datas.response.body.items.map(item =>
         [Number(item.dmX), Number(item.dmY), item.addr]
-      ) // map_data
-
-      const arr = datas.response.body.items;
-
-      // 년도 -> 모든 데이터에서 year에 맞는 데이터만 추출
-      const year_mark = arr.filter((item) => {
-        if (item.year == year) {
-          return item;
-        }
-      });
-
-      // 년도별 주소및 좌표
-      const year_marks = year_mark.map((item) => {
-        return [Number(item.dmX), Number(item.dmY), item.addr];
-      });
-
+        ) // map_data
+        
+        const arr = datas.response.body.items;
+        
+        // 년도 -> 모든 데이터에서 year에 맞는 데이터만 추출
+        const r = arr.filter((item) => {
+          if (item.year == year) {
+            return item;
+          }
+        });
+        
+        // 년도별 주소및 좌표
+        const rs = r.map((item) => {
+          return [Number(item.dmX), Number(item.dmY), item.addr];
+        });
+        
+        
       console.log("map_data", map_data)
-      drawMap(map_data)
+      drawMap(rs)
+      
     }
     getData();
-
+    
 
     // fetch(apiURL)
     //   .then((response) => response.json())
@@ -76,8 +79,10 @@ function App() {
     // console.log(datas)
     // console.log(map_data);
 
-    function drawMap(map_data) {
+    function drawMap(rs) {
+
       
+      console.log("rs",rs)
 
       // 카카오맵 스크립트 읽어오기
       const my_script = new_script(
@@ -94,7 +99,7 @@ function App() {
           const mapContainer = document.getElementById("map"),
             mapOption = {
               center: new kakao.maps.LatLng(37.5608, 126.9826), //좌표설정
-              level: 3, // 지도의 확대 레벨
+              level: 5, // 지도의 확대 레벨
             };
 
           // 지도를 생성한다
@@ -104,7 +109,7 @@ function App() {
           const clusterer = new kakao.maps.MarkerClusterer({
             map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
             averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-            minLevel: 5, // 클러스터 할 최소 지도 레벨
+            minLevel: 10, // 클러스터 할 최소 지도 레벨
           });
 
           // 지도에 표시되는 좌표 및 내용
@@ -117,10 +122,10 @@ function App() {
           const markers = [];
 
           // map_data별로 마크 생성
-          for (var i = 0; i < map_data.length; i++) {
+          for (var i = 0; i < rs.length; i++) {
             // 지도에 마커를 생성하고 표시한다
             const marker = new kakao.maps.Marker({
-              position: new kakao.maps.LatLng(map_data[i][0], map_data[i][1]),
+              position: new kakao.maps.LatLng(rs[i][0], rs[i][1]),
               map: map,
             });
 
@@ -128,7 +133,7 @@ function App() {
 
             // 인포윈도우를 생성합니다
             const infowindow = new kakao.maps.InfoWindow({
-              content: map_data[i][2],
+              content: rs[i][2],
             });
 
             // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
@@ -209,9 +214,9 @@ function App() {
         <button onClick={() => setYear(year)}>{year}</button>
       ))}
       <ul>
-        <p>{rs.length}</p>
+        <p>{Number(rs.length)-1}</p>
         {r.map((item, index) => (
-          <li key={index}>{item.addr}</li>
+          <li key={index}>{item.year}</li>
         ))}
       </ul>
     </>

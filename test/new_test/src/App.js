@@ -83,6 +83,7 @@ function App() {
       ))}
 
       <ul>
+      <p>{rs.length}</p>
         {r.map((item, index) => (
           <li key={index}>{item.addr}</li>
         ))}

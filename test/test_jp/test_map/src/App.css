@@ -1,6 +1,6 @@
 .map {
   width: 80%;
-  height: 300px;
+  height: 600px;
   align-items: center;
   justify-content: center;
   margin-left: auto;
@@ -8,4 +8,5 @@
   border-style: solid;
   border-width: medium;
   border-color: #D8D8D8;
+  font-size: large;
 }

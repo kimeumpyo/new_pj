@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 // 미세먼지 불러오기 및 적용
 export const API_URL =
-  "http://apis.data.go.kr/B552584/UlfptcaAlarmInqireSvc/getUlfptcaAlarmInfo";
+  "http://apis.data.go.kr/B552584/MsrstnInfoInqireSvc/getMsrstnList";
 export const API_KEY =
   "GzDJ%2BPjFKpdRSKy5jESta9ke4vnfZT%2BRjrLMCMJl08hDVAqIEWAzYyx3ILOJ0ilrDn3NaD8Ng8%2FagdzFkJNZ8g%3D%3D";
 
@@ -24,9 +24,9 @@ function App() {
   };
 
   useEffect(() => {
-    const endpoint = `${API_URL}?serviceKey=${API_KEY}&pageNo=1&numOfRows=10&resultType=json `;
+    const apiURL = `${API_URL}?addr=&sidoName=&pageNo=1&numOfRows=642&serviceKey=${API_KEY}&returnType=json`;
 
-    fetch(endpoint)
+    fetch(apiURL)
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
@@ -59,9 +59,9 @@ function App() {
 
         // 지도에 표시되는 좌표 및 내용
         const map_data = [
-          [37.5608, 126.9826, '<div style=padding: 5px">내용1</div>'],
-          [37.5608, 126.8486, '<div style=padding: 5px">내용2</div>'],
-          [37.5608, 126.9626, '<div style=padding: 5px">내용3</div>'],
+          [37.5608, 126.9826, "내용"],
+          [37.5608, 126.8486, "내용2"],
+          [37.5608, 126.9626, "내용3"]
         ];
 
         const markers = [];
@@ -119,7 +119,7 @@ function App() {
         }
       });
     });
-  }, []); // useEffect
+  }, []);
 
   return (
     <div className="App">
