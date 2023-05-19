@@ -9,21 +9,25 @@ export const API_URL =
 export const API_KEY =
   "GzDJ%2BPjFKpdRSKy5jESta9ke4vnfZT%2BRjrLMCMJl08hDVAqIEWAzYyx3ILOJ0ilrDn3NaD8Ng8%2FagdzFkJNZ8g%3D%3D";
 
+  
+
   const years = [2022, 2021, 2020, 2019, 2018];
+  
 
   
-  
 // 서버에 데이터를 요청하는 함수
-function fetchData(year) {
+function fetchData() {
+  
   
   const API_URL = "http://apis.data.go.kr/B552584/MsrstnInfoInqireSvc/getMsrstnList";
   const API_KEY = "GzDJ%2BPjFKpdRSKy5jESta9ke4vnfZT%2BRjrLMCMJl08hDVAqIEWAzYyx3ILOJ0ilrDn3NaD8Ng8%2FagdzFkJNZ8g%3D%3D";
   const type = 'json';
   const numOfRows = 642;
   const pageNo = 1;
+  
   // 자바스크립트에 내장된 fetch() 메서드를 사용하여 서버에 요청한다
   const promise = fetch(`${API_URL}?addr=&sidoName=&pageNo=${pageNo}&numOfRows=${numOfRows}&serviceKey=${API_KEY}&returnType=${type}`)
-  .then(response => {console.log(promise)
+  .then(response => {
     // 서버의 응답코드(status)가 200(성공)이 아닌 경우 catch 블록에 응답 객체를 던진다
     if (!response.ok) {
       throw response;
@@ -37,8 +41,10 @@ function fetchData(year) {
 
 
 export default function App() {
-  const [year, setYear] = useState(years[0]);
   
+const [year, setYear] = useState(years[0]);
+
+
   return (
     <>
       
@@ -71,12 +77,11 @@ export default function App() {
   
 }
 
-function Dashboard(year){
+function Dashboard(){
+
   const [data, setData] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
-
-  App(data)
 
   useEffect(() => {
 
@@ -85,48 +90,17 @@ function Dashboard(year){
     setError(null);
 
       // fetchData함수에 city와 year 변수를 전달한다
-      fetchData(year)
+      fetchData()
         .then(data => {
-
-          console.log(data.response.body)
-
-          const arr_data = data.response.body.items;
-
-          console.log("ssss", arr_data)
-
-          
-          const year_list = [2022, 2021, 2020, 2019, 2018]
-
-          const years_data = arr_data.filter((item) => {
-            for (let i = 0; i < year_list.length; i++) {
-              if (item.year == year_list[i]) {
-                return item;
-              }
-            }
-          });
-
-          console.log("ss", years_data)
-
-          // 년도별 주소및 좌표
-          const year_data = years_data.map((item) => {
-            return {dmx: item.dmX, dmY: item.dmY, addr: item.addr, year: item.year};
-          });
-          console.log("222", year_data)
-
-          // 년도별 주소및 좌표
-          const year_data1 = years_data.map((item) => {
-            return [Number(item.dmX), Number(item.dmY), item.addr];
-          });
-          console.log("222", year_data1)
-
           setData(data);
         })
         .catch(error => {
           setError(error);
         })
         .finally(() => setIsLoaded(true)); // 성공 실패와 관계없이 서버가 응답하면 대기상태를 해제한다
+
         
-  }, [year]) // city 또는 year 변수가 업데이트되면 서버에 다시 데이터를 요청한다
+  }, []) // city 또는 year 변수가 업데이트되면 서버에 다시 데이터를 요청한다
 
   if (error) {
     return <p>failed to fetch</p>
@@ -135,7 +109,33 @@ function Dashboard(year){
   if (!isLoaded) {
     return <p>fetching data...</p>
   }
+
+
+
+        // 모든 데이터
+        const arr_data = data.response.body.items;
+        console.log("ssss",arr_data)
+
+         // 년도 -> 모든 데이터에서 year에 맞는 데이터만 추출
+         const years_data = arr_data.filter((item) => {
+          if (item.year == year) {
+            return item;
+          }
+        });
+        console.log(years_data)
+
+        // 년도별 주소및 좌표
+        const year_data = years_data.map((item) => {
+          return [Number(item.dmX), Number(item.dmY), item.addr];
+        });
+
+
   
+
+
+
+
+
 
   return (
     <>
@@ -144,7 +144,7 @@ function Dashboard(year){
         <>
           {/* DATA를 합성된 컴포넌트에 전달한다 */}
           {/* <Rechart accidents={data.items.item} /> */}
-          <KakaoMap accidents={data.response.body.items} />
+          <KakaoMap accidents={data.items.item} />
         </>
       ) : (
         // 데이터가 없으면 사용자에게 자료가 없다는 것을 알려야 한다
