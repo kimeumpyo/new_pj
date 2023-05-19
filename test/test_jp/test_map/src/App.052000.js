@@ -21,7 +21,6 @@ function fetchData(year) {
   const type = 'json';
   const numOfRows = 642;
   const pageNo = 1;
-  
   // 자바스크립트에 내장된 fetch() 메서드를 사용하여 서버에 요청한다
   const promise = fetch(`${API_URL}?addr=&sidoName=&pageNo=${pageNo}&numOfRows=${numOfRows}&serviceKey=${API_KEY}&returnType=${type}`)
   .then(response => {console.log(promise)
@@ -183,4 +182,6 @@ function KakaoMap({ accidents }) {
     </Map>
   )
 }
+
+
 
