@@ -2,57 +2,51 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import { Map, MapMarker, MapInfoWindow } from 'react-kakao-maps-sdk';
 
-
 // 미세먼지 불러오기 및 적용
 export const API_URL =
   "http://apis.data.go.kr/B552584/MsrstnInfoInqireSvc/getMsrstnList";
 export const API_KEY =
   "GzDJ%2BPjFKpdRSKy5jESta9ke4vnfZT%2BRjrLMCMJl08hDVAqIEWAzYyx3ILOJ0ilrDn3NaD8Ng8%2FagdzFkJNZ8g%3D%3D";
 
-  const years = [2022, 2021, 2020, 2019, 2018];
+const years = [2022, 2021, 2020, 2019, 2018];
 
-  
-  
 // 서버에 데이터를 요청하는 함수
 function fetchData(year) {
-  
+
   const API_URL = "http://apis.data.go.kr/B552584/MsrstnInfoInqireSvc/getMsrstnList";
   const API_KEY = "GzDJ%2BPjFKpdRSKy5jESta9ke4vnfZT%2BRjrLMCMJl08hDVAqIEWAzYyx3ILOJ0ilrDn3NaD8Ng8%2FagdzFkJNZ8g%3D%3D";
   const type = 'json';
   const numOfRows = 642;
   const pageNo = 1;
-  
+
   // 자바스크립트에 내장된 fetch() 메서드를 사용하여 서버에 요청한다
   const promise = fetch(`${API_URL}?addr=&sidoName=&pageNo=${pageNo}&numOfRows=${numOfRows}&serviceKey=${API_KEY}&returnType=${type}`)
-  .then(response => {console.log(promise)
-    // 서버의 응답코드(status)가 200(성공)이 아닌 경우 catch 블록에 응답 객체를 던진다
-    if (!response.ok) {
-      throw response;
-    }
-    // 서버의 응답코드가 200인 경우 응답객체(프로미스 객체)를 리턴한다
-    return response.json();
-  })
+    .then(response => {
+      console.log(promise)
+      // 서버의 응답코드(status)가 200(성공)이 아닌 경우 catch 블록에 응답 객체를 던진다
+      if (!response.ok) {
+        throw response;
+      }
+      // 서버의 응답코드가 200인 경우 응답객체(프로미스 객체)를 리턴한다
+      return response.json();
+    })
   return promise;
-  }
-
-
+}
 
 export default function App() {
   const [year, setYear] = useState(years[0]);
-  
+
   return (
     <>
-      
-        <h1>자전거 사고조회</h1>
-        <section>
-          <h3>서울</h3>
+      <h1>자전거 사고조회</h1>
+      <section>
+        <h3>서울</h3>
 
-          {years.map((year) => (
+        {years.map((year) => (
           <button onClick={() => setYear(year)}>{year}</button>
-      ))}
-        </section>
+        ))}
+      </section>
 
-        
       <main>
         <div id="select-year">
           <select onChange={(e) => setYear(e.target.value)}>
@@ -65,14 +59,11 @@ export default function App() {
         {/* 대시보드에 city와 year변수를 전달한다 */}
         <Dashboard year={year} />
       </main>
-      
     </>
   )
-  
-  
 }
 
-function Dashboard(year){
+function Dashboard(year) {
   const [data, setData] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
@@ -82,51 +73,48 @@ function Dashboard(year){
   useEffect(() => {
 
     // 서버에 요청하기 전 사용자에게 대기 상태를 먼저 보여주어야 한다
-    setIsLoaded(false); 
+    setIsLoaded(false);
     setError(null);
 
-      // fetchData함수에 city와 year 변수를 전달한다
-      fetchData(year)
-        .then(data => {
+    // fetchData함수에 city와 year 변수를 전달한다
+    fetchData(year)
+      .then(data => {
 
-          console.log(data.response.body)
+        console.log(data.response.body)
 
-          const arr_data = data.response.body.items;
+        const arr_data = data.response.body.items;
+        console.log("ssss", arr_data)
 
-          console.log("ssss", arr_data)
+        const year_list = [2022, 2021, 2020, 2019, 2018]
 
-          
-          const year_list = [2022, 2021, 2020, 2019, 2018]
-
-          const years_data = arr_data.filter((item) => {
-            for (let i = 0; i < year_list.length; i++) {
-              if (item.year == year_list[i]) {
-                return item;
-              }
+        const years_data = arr_data.filter((item) => {
+          for (let i = 0; i < year_list.length; i++) {
+            if (item.year == year_list[i]) {
+              return item;
             }
-          });
+          }
+        });
+        console.log("ss", years_data)
 
-          console.log("ss", years_data)
+        // 년도별 주소및 좌표
+        const year_data = years_data.map((item) => {
+          return { dmx: item.dmX, dmY: item.dmY, addr: item.addr, year: item.year };
+        });
+        console.log("222", year_data)
 
-          // 년도별 주소및 좌표
-          const year_data = years_data.map((item) => {
-            return {dmx: item.dmX, dmY: item.dmY, addr: item.addr, year: item.year};
-          });
-          console.log("222", year_data)
+        // 년도별 주소및 좌표
+        const year_data1 = years_data.map((item) => {
+          return [Number(item.dmX), Number(item.dmY), item.addr];
+        });
+        console.log("222", year_data1)
 
-          // 년도별 주소및 좌표
-          const year_data1 = years_data.map((item) => {
-            return [Number(item.dmX), Number(item.dmY), item.addr];
-          });
-          console.log("222", year_data1)
+        setData(data);
+      })
+      .catch(error => {
+        setError(error);
+      })
+      .finally(() => setIsLoaded(true)); // 성공 실패와 관계없이 서버가 응답하면 대기상태를 해제한다
 
-          setData(data);
-        })
-        .catch(error => {
-          setError(error);
-        })
-        .finally(() => setIsLoaded(true)); // 성공 실패와 관계없이 서버가 응답하면 대기상태를 해제한다
-        
   }, [year]) // city 또는 year 변수가 업데이트되면 서버에 다시 데이터를 요청한다
 
   if (error) {
@@ -136,7 +124,6 @@ function Dashboard(year){
   if (!isLoaded) {
     return <p>fetching data...</p>
   }
-  
 
   return (
     <>
@@ -170,12 +157,11 @@ function KakaoMap({ accidents }) {
       <div style={{ padding: "5px", color: "#000" }}>
       </div>
     </MapInfoWindow>
-    ))
-
+  ))
 
   return (
     <Map
-      center={{ lat: accidents[0].dmX, lng: accidents[0].dmY }} // 지도의 중심 좌표
+      center={{ lat: accidents[0].dmX, lng: accidents[0].dmY }}       // 지도의 중심 좌표
       style={{ width: "800PX", height: "450px" }}                     // 지도 크기
       level={5}                                                       // 지도 확대 레벨
     >
