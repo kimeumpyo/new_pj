@@ -16,10 +16,10 @@ import {
 const seoul = [{ siDo: 11, name: '서울' },]
 const incheon = [{ siDo: 28, name: '인천' },]
 const busan = [{ siDo: 26, name: '부산' },]
-const daegu = [{ siDo: 26, name: '대구' },]
-const gwangju = [{ siDo: 26, name: '광주' },]
-const Daejeon = [{ siDo: 26, name: '대전' },]
-const Ulsan = [{ siDo: 26, name: '울산' },]
+const daegu = [{ siDo: 27, name: '대구' },]
+const gwangju = [{ siDo: 29, name: '광주' },]
+const Daejeon = [{ siDo: 30, name: '대전' },]
+const Ulsan = [{ siDo: 31, name: '울산' },]
 
 const years = [2021, 2020, 2019, 2018, 2017];
 
@@ -60,22 +60,22 @@ export default function App() {
       <nav>
         <h1>자전거 사고조회</h1>
         <section>
-          {seoul.map(city => (<button key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
-          {incheon.map(city => (<button key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
-          {busan.map(city => (<button key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
-          {daegu.map(city => (<button key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
-          {gwangju.map(city => (<button key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
-          {Daejeon.map(city => (<button key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
-          {Ulsan.map(city => (<button key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
+          {seoul.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
+          {incheon.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
+          {busan.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
+          {daegu.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
+          {gwangju.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
+          {Daejeon.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
+          {Ulsan.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
         </section>
       </nav>
 
       {/* 메인 */}
       <main>
         <div id="select-year">
-          <select onChange={(e) => setYear(e.target.value)}>
+          <select class="ss" onChange={(e) => setYear(e.target.value)}>
             {years.map(year => (
-              <option key={year} value={year}>{year}</option>
+              <option  key={year} value={year}>{year}</option>
             ))}
           </select>
         </div>
@@ -149,7 +149,6 @@ function Rechart({ accidents }) {
     return {
       name: accident.spot_nm.split(' ')[2],
       발생건수: accident.occrrnc_cnt,
-      경상자수: accident.sl_dnv_cnt,
       중상자수: accident.se_dnv_cnt,
       사상자수: accident.caslt_cnt,
       사망자수: accident.dth_dnv_cnt
@@ -157,11 +156,11 @@ function Rechart({ accidents }) {
   })
 
   return (
-    <div style={{ height: "300px" }}>
-      <ResponsiveContainer width="100%" height="100%">
+    <div style={{ height: "500px" }}>
+      <ResponsiveContainer width="30%" height="100%">
         <BarChart
-          width={500}
-          height={300}
+          width={250}
+          height={150}
           data={chartData}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         >
@@ -171,7 +170,6 @@ function Rechart({ accidents }) {
           <Tooltip />
           <Legend />
           <Bar dataKey="발생건수" fill="#0af" />
-          <Bar dataKey="경상건수" fill="#0as" />
           <Bar dataKey="중상자수" fill="#fa0" />
           <Bar dataKey="사상자수" fill="#f00" />
           <Bar dataKey="사망자수" fill="#fae" />
@@ -186,46 +184,28 @@ function KakaoMap({ accidents }) {
   console.log(accidents) // 데이터가 전달되었는지 확인 후 아래 코드를 작성하세요
   // 인포윈도우
   const [isOpen, setIsOpen] = useState(false);
-  // 클러스트러
-  const [positions, setPositions] = useState([]);  
-  // 클러스트러
-  useEffect(() => {
-    setPositions(clusterPositionsData.positions);
-  },[])
+
 
 
   // MapInfoWindow 컴포넌트를 재사용한다
   const mapInfoWindows = accidents.map(accident => (
-    <MarkerClusterer
-          averageCenter={true} // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-          minLevel={10} // 클러스터 할 최소 지도 레벨
-        > 
-    {positions.map((pos) => (
     <MapMarker
       key={accident.la_crd}
       position={{ lat: accident.la_crd, lng: accident.lo_crd }}
       removable={true}
-      averageCenter={true} // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-      minLevel={5} // 클러스터 할 최소 지도 레벨
       // 마커에 마우스오버 이벤트를 등록합니다
       onMouseOver={
-        // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
-        () => setIsOpen(true)
+        () => setIsOpen(true)// 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
       }
       // 마커에 마우스아웃 이벤트를 등록합니다
       onMouseOut={
-        // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
-        () => setIsOpen(false)
+        () => setIsOpen(false)// 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
       }
       >
-        
+      {/* 인포윈도우에 나오는 */}
       {isOpen &&<div style={{ padding: "5px", color: "#000" }}>
       {accident.spot_nm.split(' ')[2]}</div>}
     </MapMarker>
- ))}
-    </MarkerClusterer>
-
-    
   ));
 
   

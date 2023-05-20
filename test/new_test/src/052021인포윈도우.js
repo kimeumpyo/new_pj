@@ -16,10 +16,10 @@ import {
 const seoul = [{ siDo: 11, name: '서울' },]
 const incheon = [{ siDo: 28, name: '인천' },]
 const busan = [{ siDo: 26, name: '부산' },]
-const daegu = [{ siDo: 26, name: '대구' },]
-const gwangju = [{ siDo: 26, name: '광주' },]
-const Daejeon = [{ siDo: 26, name: '대전' },]
-const Ulsan = [{ siDo: 26, name: '울산' },]
+const daegu = [{ siDo: 27, name: '대구' },]
+const gwangju = [{ siDo: 29, name: '광주' },]
+const Daejeon = [{ siDo: 30, name: '대전' },]
+const Ulsan = [{ siDo: 31, name: '울산' },]
 
 const years = [2021, 2020, 2019, 2018, 2017];
 
