@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import './App.css';
-import { Map, MapMarker, MapInfoWindow } from 'react-kakao-maps-sdk';
+import { Map, MapMarker, MapInfoWindow , MarkerClusterer} from 'react-kakao-maps-sdk';
 import {
   BarChart,
   Bar,
@@ -19,7 +19,7 @@ const busan = [{ siDo: 26, name: '부산' },]
 const daegu = [{ siDo: 27, name: '대구' },]
 const gwangju = [{ siDo: 29, name: '광주' },]
 const Daejeon = [{ siDo: 30, name: '대전' },]
-const Ulsan = [{ siDo: 31, name: '울산' },]
+
 
 const years = [2021, 2020, 2019, 2018, 2017];
 
@@ -35,6 +35,7 @@ function fetchData(city, year) {
   // 자바스크립트에 내장된 fetch() 메서드를 사용하여 서버에 요청한다
   const promise = fetch(`${API_URL}?ServiceKey=${API_KEY}&searchYearCd=${year}&siDo=${city.siDo}&guGun=&numOfRows=${numOfRows}&pageNo=${pageNo}&type=${type}`)
     .then(res => {
+      console.log(promise)
       
       // 서버의 응답코드(status)가 200(성공)이 아닌 경우 catch 블록에 응답 객체를 던진다
       if (!res.ok) { 
@@ -66,7 +67,6 @@ export default function App() {
           {daegu.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
           {gwangju.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
           {Daejeon.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
-          {Ulsan.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
         </section>
       </nav>
 
@@ -157,7 +157,7 @@ function Rechart({ accidents }) {
 
   return (
     <div style={{ height: "500px" }}>
-      <ResponsiveContainer width="30%" height="100%">
+      <ResponsiveContainer width="50%" height="100%">
         <BarChart
           width={250}
           height={150}
@@ -185,7 +185,7 @@ function KakaoMap({ accidents }) {
   // 인포윈도우
   const [isOpen, setIsOpen] = useState(false);
 
-
+ 
 
   // MapInfoWindow 컴포넌트를 재사용한다
   const mapInfoWindows = accidents.map(accident => (
@@ -204,7 +204,8 @@ function KakaoMap({ accidents }) {
       >
       {/* 인포윈도우에 나오는 */}
       {isOpen &&<div style={{ padding: "5px", color: "#000" }}>
-      {accident.spot_nm.split(' ')[2]}</div>}
+      {accident.spot_nm.split(' ')[2]}
+      </div>}
     </MapMarker>
   ));
 
@@ -220,7 +221,9 @@ function KakaoMap({ accidents }) {
       style={{ width: "800PX", height: "450px" }}                     // 지도 크기
       level={10}                                                      // 지도 확대 레벨
     >
-      {mapInfoWindows}
+       <MarkerClusterer averageCenter enableDefaultStyles>
+       {mapInfoWindows}
+       </MarkerClusterer>
     </Map>
   )
 }
