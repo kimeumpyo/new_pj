@@ -186,21 +186,10 @@ function KakaoMap({ accidents }) {
   console.log(accidents) // 데이터가 전달되었는지 확인 후 아래 코드를 작성하세요
   // 인포윈도우
   const [isOpen, setIsOpen] = useState(false);
-  // 클러스트러
-  const [positions, setPositions] = useState([]);  
-  // 클러스트러
-  useEffect(() => {
-    setPositions(clusterPositionsData.positions);
-  },[])
-
 
   // MapInfoWindow 컴포넌트를 재사용한다
   const mapInfoWindows = accidents.map(accident => (
-    <MarkerClusterer
-          averageCenter={true} // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-          minLevel={10} // 클러스터 할 최소 지도 레벨
-        > 
-    {positions.map((pos) => (
+   
     <MapMarker
       key={accident.la_crd}
       position={{ lat: accident.la_crd, lng: accident.lo_crd }}
@@ -222,16 +211,7 @@ function KakaoMap({ accidents }) {
       {isOpen &&<div style={{ padding: "5px", color: "#000" }}>
       {accident.spot_nm.split(' ')[2]}</div>}
     </MapMarker>
- ))}
-    </MarkerClusterer>
-
-    
   ));
-
-  
-
- 
-
 
   // 맵 불러오기
   return (
