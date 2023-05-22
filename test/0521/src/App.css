@@ -25,6 +25,12 @@ header {
   background-repeat: no-repeat;
   z-index: 10;
 }
+/* .header_a {
+  font-size: 2rem; 
+  color: rgb(0, 0, 0); 
+  padding: 0.5rem 1rem; 
+  transition: background-color 0.2s, color 0.2s;
+} */
 
 .header_flex {
   padding: 1rem;
@@ -40,8 +46,9 @@ header {
 }
 
 .header_button{
-  display: inline-flex;
-  margin: 0 auto;
+  display: flex;
+  margin: 5px auto 0;
+  width: 100%;
 }
 
 /* side bar //////////////////////////////////////////////////////// */
@@ -63,12 +70,14 @@ header {
   z-index: 10;
 }
 .side_div{
+  background-color: rgb(179, 180, 182);
   margin-top: 3rem;
-  height: 12rem;
-  padding: 0 1rem;
+  height: 6rem;
+  padding: 4rem 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  opacity: 0.7;
 }
 
 .side_h2{
@@ -76,6 +85,7 @@ header {
   color: white;
   font-weight: 600;
 }
+
 .side_btn_position{
   display: flex;
   flex-direction: column;
@@ -86,22 +96,39 @@ header {
   margin: 0 auto;
 }
 .side_btn{
+  margin-top: 4rem;
   display: flex;
   justify-content: center;
 }
 
 /* main  //////////////////////////////////////////////////////// */
+
 main{
   margin-top: 6rem;
   max-width: 1024px;
   margin: 0px auto;
   padding: 0px 1rem;
 }
+@media  (max-width: 1023px){
+  main{
+      margin-top: 12rem;
+  }
+}
+
 @media  (min-width: 1023px){
   main{
       margin-left: 20rem;
   }
 }
+
+
+.container{
+  margin-top: 6rem;
+    max-width: 1024px;
+    margin: 5rem auto;
+    padding: 0px 1rem;
+}
+
 
 
 /*nav*/
@@ -112,7 +139,7 @@ section{
 }
 
 .btn{
-  width: 80px;
+  width: 60px;
   height: 40px;
   margin: 5px;
   cursor: pointer;
@@ -148,26 +175,44 @@ section{
 
 /*chart*/
 .chart_title{
-  display: flex;
-  justify-content: center;
+  display: block;
   margin-top: 20px;
   color: black
 }
+span{
+  display: block;
+}
+.chart_title_pt{
+  display: flex;
+}
+
+
 .chart{
   display: flex;
   justify-content: center;
-  width: 100%;
+  min-width: 300px;
+  max-width: 600px;
   height: 500px;
 }
+
 
 /*map*/
 .map {
   display: flex;
   justify-content: center;
-  width: 100%;
+  min-width: 300px;
+  max-width: 600px;
   height: 500px;
 }
 
-.DashboardContainer{
-  width: 50%;
+.show_images{
+  display: grid;
+  margin-top: 1rem;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .show_images {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

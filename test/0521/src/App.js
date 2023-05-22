@@ -21,8 +21,10 @@ const daegu = [{ siDo: 27, name: '대구' },]
 const gwangju = [{ siDo: 29, name: '광주' },]
 const Daejeon = [{ siDo: 30, name: '대전' },]
 
+ 
 
 const years = [2021, 2020, 2019, 2018, 2017];
+const citys = [seoul, incheon, busan, daegu, gwangju, Daejeon];
 
 // 서버에 데이터를 요청하는 함수
 function fetchData(city, year) {
@@ -61,25 +63,31 @@ export default function App() {
       {/* header */}
       <header>
         <div className="header_flex">
-          <h1 className="header_h1">❄ 결빙사고다발지역</h1>
+          {/* <a href="#" className="header_a">&#9776;</a> */}
+          <h1 className="header_h1">❄ 결빙 사고 다발지역</h1>
+          
           <div className='header_button'>
-            <section >
+            <div>
               {seoul.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
               {incheon.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+            </div>
+            <div>
               {busan.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
               {daegu.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+            </div>
+            <div>
               {gwangju.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
               {Daejeon.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
-            </section>
-
+            </div>
+            
             <section>
               <select class="year" onChange={(e) => setYear(e.target.value)}>
                 {years.map(year => (
                   <option key={year} value={year}>{year}</option>
                 ))}
               </select>
-            </section>
 
+            </section>
           </div>
         </div>
       </header>
@@ -87,7 +95,7 @@ export default function App() {
       {/* Side Bar */}
       <nav className="side_nav">
         <div className="side_div">
-          <h1 className="header_h1">결빙사고다발지역</h1>
+          <h1 className="header_h1">결빙 사고 <br/>다발지역</h1>
         </div>
         <div className='side_btn'>
           <div className='side_btn_position'>
@@ -110,12 +118,12 @@ export default function App() {
 
       {/* 메인 */}
       <main>
-      <div className="container">
-        {/* 대시보드에 city와 year변수를 전달한다 */}
-        <div className='Dashboardontainer'>
-          <Dashboard city={city} year={year} />
+        <div>
+          <div className="container">
+            {/* 대시보드에 city와 year변수를 전달한다 */}
+            <Dashboard city={city} year={year} />
+          </div>
         </div>
-      </div>
       </main>
     </>
   )
@@ -158,12 +166,17 @@ function Dashboard({ city, year }) {
   
   return (
     <>
-      <h1 className='chart_title'>{year}년 {city.name} 사고조회 결과</h1>
+      
       {data.totalCount > 0 ? (
         <>
           {/* DATA를 합성된 컴포넌트에 전달한다 */}
-          <Rechart accidents={data.items.item} />
-          <KakaoMap accidents={data.items.item} />
+          <div className='chart_title_pt'>
+            <h1 className='chart_title'><span>{year}년</span><span>{city.name} 사고결과 조회</span></h1>
+          </div>
+          <div className="show_images">
+            <KakaoMap accidents={data.items.item} />
+            <Rechart accidents={data.items.item} />
+          </div>
         </>
       ) : (
         // 데이터가 없으면 사용자에게 자료가 없다는 것을 알려야 한다
