@@ -1,21 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic:wght@800&display=swap');
+
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Black Han Sans', sans-serif;
+  font-family: 'Nanum Gothic', sans-serif;
+}
+/*nav*/
+.title{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("https://img.freepik.com/premium-photo/broken-ice-wall-with-big-hole_241146-98.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color:snow;
+  text-shadow: 4px 2px 2px gray;
+  font-weight: bolder;
+  width: 100%;
+  height: 100px;
+}
+
+/*section*/
+section{
+  display: flex;
+  justify-content: center;
+}
+
+section .btn{
+  width: 80px;
+  height: 40px;
+  background-image: url("https://img.freepik.com/premium-photo/broken-ice-wall-with-big-hole_241146-98.jpg");
+  color: snow;
+  text-shadow: 2px 2px 2px gray;
+  margin: 5px;
+}
+
+/*select-year*/
+#select-year{
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.year{
+  width: 300px;
+  height: 30px;
+  background-color: rgb(223, 240, 255);
+  border: none;
+}
+
+/*chart*/
+.chart_title{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  color: black
+}
+.chart{
+  display: flex;
+  justify-content: center;
+}
+
+/*map*/
 .map {
   width: 80%;
   height: 300px;
-  align-items: center;
-  justify-content: center;
-  margin-left: auto;
-  margin-right: auto;
-  border-style: solid;
+  border: 1px solid #D8D8D8;
   border-width: medium;
-  border-color: #D8D8D8;
+}
+.showContainer{
+  width: 100%;
 }
 
-.btn{
-  width: 80px;
-  height: 40px;
+.MapChartPosition{
+  display: flex;
 }
 
-.ss{
-  width: 80px;
-  height: 40px;
+.chartBox{
+  width: 50%;
+  height: 00px;
 }
+
+.mapBox{
+ 
+}
+

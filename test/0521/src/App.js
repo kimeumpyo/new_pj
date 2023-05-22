@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import './App.css';
 import { Map, MapMarker, MapInfoWindow , MarkerClusterer} from 'react-kakao-maps-sdk';
+import { BrowserRouter as Router, Routes, Route, Link, Outlet, useParams, NavLink, } from 'react-router-dom';
 import {
   BarChart,
   Bar,
@@ -57,37 +58,64 @@ export default function App() {
 
   return (
     <>
+      {/* header */}
+      <header>
+        <div className="header_flex">
+          <h1 className="header_h1">❄ 결빙사고다발지역</h1>
+          <div className='header_button'>
+            <section >
+              {seoul.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+              {incheon.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+              {busan.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+              {daegu.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+              {gwangju.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+              {Daejeon.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+            </section>
+
+            <section>
+              <select class="year" onChange={(e) => setYear(e.target.value)}>
+                {years.map(year => (
+                  <option key={year} value={year}>{year}</option>
+                ))}
+              </select>
+            </section>
+
+          </div>
+        </div>
+      </header>
+
       {/* Side Bar */}
-            <h1>결빙 사고 다발지역 조회</h1>
-      <nav>
-        <section>
-          {seoul.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
-          {incheon.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
-          {busan.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
-          {daegu.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
-          {gwangju.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
-          {Daejeon.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
-        </section>
+      <nav className="side_nav">
+        <div className="side_div">
+          <h1 className="header_h1">결빙사고다발지역</h1>
+        </div>
+        <div className='side_btn'>
+          <div className='side_btn_position'>
+            {seoul.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+            {incheon.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+            {busan.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+            {daegu.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+            {gwangju.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+            {Daejeon.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}          
+          </div>
+          <section>
+            <select class="year" onChange={(e) => setYear(e.target.value)}>
+              {years.map(year => (
+                <option key={year} value={year}>{year}</option>
+              ))}
+            </select>
+          </section>
+        </div>
       </nav>
 
       {/* 메인 */}
       <main>
-        <div id="select-year">
-          <select class="year" onChange={(e) => setYear(e.target.value)}>
-            {years.map(year => (
-              <option  key={year} value={year}>{year}</option>
-              ))}
-          </select>
-        </div>
-
-        <h1>{year}년 {city.name} 사고조회 결과</h1>
-        
+      <div className="container">
         {/* 대시보드에 city와 year변수를 전달한다 */}
-        <div className='showContainer'>
-          <div className='MapChartPosition'>
-            <Dashboard city={city} year={year} />
-          </div>
+        <div className='Dashboardontainer'>
+          <Dashboard city={city} year={year} />
         </div>
+      </div>
       </main>
     </>
   )
@@ -130,6 +158,7 @@ function Dashboard({ city, year }) {
   
   return (
     <>
+      <h1 className='chart_title'>{year}년 {city.name} 사고조회 결과</h1>
       {data.totalCount > 0 ? (
         <>
           {/* DATA를 합성된 컴포넌트에 전달한다 */}
@@ -152,7 +181,7 @@ function Rechart({ accidents }) {
   // 리차트가 요구하는 형식에 맞게 데이터를 구성한다
   const chartData = accidents.map(accident => {
     return {
-      name: accident.spot_nm.split(' ')[2],
+      name: accident.spot_nm.split(' ')[1],
       발생건수: accident.occrrnc_cnt,
       중상자수: accident.se_dnv_cnt,
       사상자수: accident.caslt_cnt,
@@ -161,8 +190,8 @@ function Rechart({ accidents }) {
   })
 
   return (
-    <div style={{ height: "500px" }} className='chartBox'>
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="chart">
+      <ResponsiveContainer>
         <BarChart
           width={250}
           height={150}
@@ -208,7 +237,7 @@ function KakaoMap({ accidents }) {
       }
       >
       {/* 인포윈도우에 나오는 */}
-      {isOpen &&<div style={{ padding: "5px", color: "#000" }}>
+      {isOpen &&<div style={{ padding: "5px", color: "#000"}}>
       {accident.spot_nm.split(' ')[2]}
       </div>}
     </MapMarker>
@@ -221,19 +250,16 @@ function KakaoMap({ accidents }) {
 
   // 맵 불러오기
   return (
-    <>
-      <div className='mapBox'>
-        <Map
-          center={{ lat: accidents[0].la_crd, lng: accidents[0].lo_crd }} // 지도의 중심 좌표
-          style={{ width: "800PX", height: "450px" }}                     // 지도 크기
-          level={10}                                                      // 지도 확대 레벨
-        >
-          <MarkerClusterer averageCenter enableDefaultStyles>
-            {mapInfoWindows}
-          </MarkerClusterer>
-        </Map>
-      </div>
-    </>
-      
+    <div className='map'>
+      <Map
+        center={{ lat: accidents[0].la_crd, lng: accidents[0].lo_crd }} // 지도의 중심 좌표
+        style={{ width: "800px", height: "450px" }}                     // 지도 크기
+        level={10}                                                      // 지도 확대 레벨
+      >
+        <MarkerClusterer averageCenter enableDefaultStyles>
+        {mapInfoWindows}
+        </MarkerClusterer>
+      </Map>
+    </div>
   )
 }

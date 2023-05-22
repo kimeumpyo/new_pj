@@ -58,8 +58,8 @@ export default function App() {
   return (
     <>
       {/* Side Bar */}
-            <h1>결빙 사고 다발지역 조회</h1>
       <nav>
+        <h1 className='title'>결빙사고다발지역</h1>
         <section>
           {seoul.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
           {incheon.map(city => (<button class="btn" key={city.id}onClick={() => setCity(city)}>{city.name}</button>))}
@@ -76,17 +76,13 @@ export default function App() {
           <select class="year" onChange={(e) => setYear(e.target.value)}>
             {years.map(year => (
               <option  key={year} value={year}>{year}</option>
-              ))}
+            ))}
           </select>
         </div>
 
-        <h1>{year}년 {city.name} 사고조회 결과</h1>
-        
         {/* 대시보드에 city와 year변수를 전달한다 */}
-        <div className='showContainer'>
-          <div className='MapChartPosition'>
-            <Dashboard city={city} year={year} />
-          </div>
+        <div className='Dashboardontainer'>
+          <Dashboard city={city} year={year} />
         </div>
       </main>
     </>
@@ -130,11 +126,15 @@ function Dashboard({ city, year }) {
   
   return (
     <>
+      <h1 className='chart_title'>{year}년 {city.name} 사고조회 결과</h1>
       {data.totalCount > 0 ? (
         <>
           {/* DATA를 합성된 컴포넌트에 전달한다 */}
           <Rechart accidents={data.items.item} />
-          <KakaoMap accidents={data.items.item} />
+          
+          <div className='map'>
+            <KakaoMap accidents={data.items.item} />
+          </div>
         </>
       ) : (
         // 데이터가 없으면 사용자에게 자료가 없다는 것을 알려야 한다
@@ -161,8 +161,8 @@ function Rechart({ accidents }) {
   })
 
   return (
-    <div style={{ height: "500px" }} className='chartBox'>
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="chart" style={{ height: "500px" }}>
+      <ResponsiveContainer width="50%" height="100%">
         <BarChart
           width={250}
           height={150}
@@ -208,7 +208,7 @@ function KakaoMap({ accidents }) {
       }
       >
       {/* 인포윈도우에 나오는 */}
-      {isOpen &&<div style={{ padding: "5px", color: "#000" }}>
+      {isOpen &&<div style={{ padding: "5px", color: "#000"}}>
       {accident.spot_nm.split(' ')[2]}
       </div>}
     </MapMarker>
@@ -221,19 +221,14 @@ function KakaoMap({ accidents }) {
 
   // 맵 불러오기
   return (
-    <>
-      <div className='mapBox'>
-        <Map
-          center={{ lat: accidents[0].la_crd, lng: accidents[0].lo_crd }} // 지도의 중심 좌표
-          style={{ width: "800PX", height: "450px" }}                     // 지도 크기
-          level={10}                                                      // 지도 확대 레벨
-        >
-          <MarkerClusterer averageCenter enableDefaultStyles>
-            {mapInfoWindows}
-          </MarkerClusterer>
-        </Map>
-      </div>
-    </>
-      
+    <Map
+      center={{ lat: accidents[0].la_crd, lng: accidents[0].lo_crd }} // 지도의 중심 좌표
+      style={{ width: "800px", height: "450px" }}                     // 지도 크기
+      level={10}                                                      // 지도 확대 레벨
+    >
+       <MarkerClusterer averageCenter enableDefaultStyles>
+       {mapInfoWindows}
+       </MarkerClusterer>
+    </Map>
   )
 }
