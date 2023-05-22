@@ -1,18 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic:wght@800&display=swap');
-:root{
-  --imaga:url("https://img.freepik.com/premium-photo/broken-ice-wall-with-big-hole_241146-98.jpg")
+
+:root {
+  --image: url("https://img.freepik.com/premium-photo/broken-ice-wall-with-big-hole_241146-98.jpg");
+  --sideimage: url("https://cdn.mhnse.com/news/photo/202104/73083_44536_3654.jpg");
 }
-*{
+
+* {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
   font-family: 'Black Han Sans', sans-serif;
   font-family: 'Nanum Gothic', sans-serif;
 }
+body{
+  background-color: rgb(100, 100, 100);
+}
+
 /* header //////////////////////////////////////////////////////// */
-@media  (min-width: 1023px){
-  header{
-      display:none;
+@media (min-width: 1023px) {
+  header {
+    display: none;
   }
 }
 
@@ -20,125 +27,132 @@ header {
   position: fixed;
   top: 0;
   width: 100%;
-  background-image: var(--imaga);
+  background-image: var(--sideimage);
   background-size: cover;
   background-repeat: no-repeat;
   z-index: 10;
 }
-/* .header_a {
-  font-size: 2rem; 
-  color: rgb(0, 0, 0); 
-  padding: 0.5rem 1rem; 
-  transition: background-color 0.2s, color 0.2s;
-} */
 
 .header_flex {
   padding: 1rem;
- 
+
 }
 
 .header_h1 {
-  margin-left: 0.5rem; 
-  font-size: 2rem; 
-  color: rgb(0, 0, 0); 
+  margin-left: 0.5rem;
+  font-size: 2rem;
+  color: rgb(0, 0, 0);
   font-weight: 600;
-  text-shadow: 6px 2px 2px rgb(255, 255, 255); 
+  text-shadow: 6px 2px 2px rgb(255, 255, 255);
 }
 
-.header_button{
+.header_button {
   display: flex;
   margin: 5px auto 0;
   width: 100%;
 }
 
 /* side bar //////////////////////////////////////////////////////// */
-@media  (max-width: 1023px){
-  .side_nav{
-      display:none;
+@media (max-width: 1023px) {
+  .side_nav {
+    display: none;
   }
 }
 
-.side_nav{
+
+.side_nav {
   position: fixed;
   top: 0;
   left: 0;
   width: 20rem;
   height: 100%;
-  background-image: var(--imaga);
+  background-image: var(--sideimage);
   background-size: cover;
   padding: 0 1rem;
   z-index: 10;
 }
-.side_div{
-  background-color: rgb(179, 180, 182);
+
+.side_div {
   margin-top: 3rem;
   height: 6rem;
   padding: 4rem 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  opacity: 0.7;
 }
 
-.side_h2{
-  font-size: 2.5rem;
-  color: white;
+.side_h1 {
+  font-size: 3rem;
+  color: rgb(0, 0, 0);
   font-weight: 600;
+  text-shadow: 6px 2px 2px rgb(255, 255, 255);
 }
 
-.side_btn_position{
+.side_btn_position {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.btn_mg{
+
+.btn_mg {
   margin: 0 auto;
 }
-.side_btn{
+
+.side_btn {
   margin-top: 4rem;
   display: flex;
   justify-content: center;
 }
 
+.side_btn_size {
+  width: 100px;
+  height: 50px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: rgb(222, 222, 222);
+  border-radius: 10px;
+  border: 4px rgb(255, 255, 255) solid;
+}
+
+.side_btn_size:hover {
+  background-color: black;
+  color: rgb(255, 255, 255);
+  transition: 0.45s;
+
+}
+
 /* main  //////////////////////////////////////////////////////// */
 
-main{
-  margin-top: 6rem;
-  max-width: 1024px;
-  margin: 0px auto;
+main {
+  padding: 1rem;
+}
+
+@media (max-width: 1023px) {
+  main {
+    margin-top: 7rem;
+  }
+}
+
+@media (min-width: 1023px) {
+  main {
+    margin: auto auto auto 20rem;
+  }
+}
+
+.container {
+  max-width: 2048px;
+  margin: 3rem auto 0;
   padding: 0px 1rem;
 }
-@media  (max-width: 1023px){
-  main{
-      margin-top: 12rem;
-  }
-}
 
-@media  (min-width: 1023px){
-  main{
-      margin-left: 20rem;
-  }
-}
-
-
-.container{
-  margin-top: 6rem;
-    max-width: 1024px;
-    margin: 5rem auto;
-    padding: 0px 1rem;
-}
-
-
-
-/*nav*/
-
-section{
+section {
   display: flex;
   justify-content: center;
 }
 
-.btn{
+.btn {
   width: 60px;
   height: 40px;
   margin: 5px;
@@ -146,23 +160,23 @@ section{
   font-size: 1rem;
   background-color: rgb(222, 222, 222);
   border-radius: 10px;
+  border: 4px rgb(255, 255, 255) solid;
 }
 
-.btn:hover{
+.btn:hover {
   background-color: black;
-   color: rgb(255, 255, 255);
-   transition: 0.25s;
-   opacity: 1;
+  color: rgb(255, 255, 255);
+  transition: 0.45s;
+  opacity: 1;
 }
 
-/*select-year*/
-#select-year{
+#select-year {
   display: flex;
   justify-content: center;
   margin-top: 50px;
 }
 
-.year{
+.year {
   width: 80px;
   height: 40px;
   margin: 5px;
@@ -171,47 +185,65 @@ section{
   font-size: 1.2rem;
   text-align: center;
   color: rgb(0, 0, 0);
+  border: 4px rgb(255, 255, 255) solid;
 }
 
-/*chart*/
-.chart_title{
-  display: block;
-  margin-top: 20px;
-  color: black
+/*chart ////////////////////////////////////////////////////////*/
+@media (max-width: 1023px) {
+  .chart_title {
+    font-size: 2rem;
+  }
 }
-span{
-  display: block;
-}
-.chart_title_pt{
+
+.chart_title {
   display: flex;
+  font-size: 3rem;
+  color: rgb(0, 0, 0);
+  text-shadow: 6px 2px 2px rgb(255, 255, 255);
+  padding: 1rem;
+}
+
+span {
+  
+}
+
+.chart_title_pt {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-image: var(--image);
+  padding: 1rem;
 }
 
 
-.chart{
+.chart {
   display: flex;
   justify-content: center;
-  min-width: 300px;
-  max-width: 600px;
-  height: 500px;
+  min-width: 50%;
+  width: 100%;
+  font-size: small;
 }
 
 
-/*map*/
+/*map ////////////////////////////////////////////////////////*/
 .map {
   display: flex;
   justify-content: center;
-  min-width: 300px;
-  max-width: 600px;
-  height: 500px;
+  min-width: 50%;
+  width: 100%;
+  min-height: 50%;
+  font-size: x-small;
 }
 
-.show_images{
+.show_images {
   display: grid;
   margin-top: 1rem;
   grid-template-columns: 1fr;
   gap: 1rem;
+  background-color: rgb(255, 255, 255);
 }
-@media (min-width: 768px) {
+
+@media (min-width: 1023px) {
   .show_images {
     grid-template-columns: repeat(2, 1fr);
   }

@@ -95,16 +95,16 @@ export default function App() {
       {/* Side Bar */}
       <nav className="side_nav">
         <div className="side_div">
-          <h1 className="header_h1">결빙 사고 <br/>다발지역</h1>
+          <h1 className="side_h1">결빙 사고 <br/>다발지역</h1>
         </div>
         <div className='side_btn'>
           <div className='side_btn_position'>
-            {seoul.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
-            {incheon.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
-            {busan.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
-            {daegu.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
-            {gwangju.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
-            {Daejeon.map(city => (<button class="btn" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}          
+            {seoul.map(city => (<button class="side_btn_size" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+            {incheon.map(city => (<button class="side_btn_size" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+            {busan.map(city => (<button class="side_btn_size" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+            {daegu.map(city => (<button class="side_btn_size" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+            {gwangju.map(city => (<button class="side_btn_size" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}
+            {Daejeon.map(city => (<button class="side_btn_size" key={city.id} onClick={() => setCity(city)}>{city.name}</button>))}          
           </div>
           <section>
             <select class="year" onChange={(e) => setYear(e.target.value)}>
@@ -171,7 +171,7 @@ function Dashboard({ city, year }) {
         <>
           {/* DATA를 합성된 컴포넌트에 전달한다 */}
           <div className='chart_title_pt'>
-            <h1 className='chart_title'><span>{year}년</span><span>{city.name} 사고결과 조회</span></h1>
+            <div className='chart_title'>{year}년 {city.name} 사고결과 조회</div>
           </div>
           <div className="show_images">
             <KakaoMap accidents={data.items.item} />
@@ -194,11 +194,11 @@ function Rechart({ accidents }) {
   // 리차트가 요구하는 형식에 맞게 데이터를 구성한다
   const chartData = accidents.map(accident => {
     return {
-      name: accident.spot_nm.split(' ')[1],
-      발생건수: accident.occrrnc_cnt,
-      중상자수: accident.se_dnv_cnt,
-      사상자수: accident.caslt_cnt,
-      사망자수: accident.dth_dnv_cnt
+      name: accident.spot_nm.split(' ')[2],
+      발생건수:accident.occrrnc_cnt,
+      중상자수:accident.se_dnv_cnt,
+      사상자수:accident.caslt_cnt,
+      사망자수:accident.dth_dnv_cnt
     }
   })
 
@@ -206,10 +206,10 @@ function Rechart({ accidents }) {
     <div className="chart">
       <ResponsiveContainer>
         <BarChart
-          width={250}
-          height={150}
+          width={500}
+          height={500}
           data={chartData}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          margin={{ top: 5, right: 70, left: 20, bottom: 5 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
@@ -255,7 +255,7 @@ function KakaoMap({ accidents }) {
       </div>}
     </MapMarker>
   ));
-
+  
   
 
  
@@ -266,7 +266,7 @@ function KakaoMap({ accidents }) {
     <div className='map'>
       <Map
         center={{ lat: accidents[0].la_crd, lng: accidents[0].lo_crd }} // 지도의 중심 좌표
-        style={{ width: "800px", height: "450px" }}                     // 지도 크기
+        style={{ width: "800px", height: "600px" }}                     // 지도 크기
         level={10}                                                      // 지도 확대 레벨
       >
         <MarkerClusterer averageCenter enableDefaultStyles>
